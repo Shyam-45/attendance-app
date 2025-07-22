@@ -288,7 +288,7 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
               child: SafeArea(
                 child: Column(
                   children: [
-                    // Header
+
                     Container(
                       padding: const EdgeInsets.all(20),
                       child: Row(
@@ -356,7 +356,6 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
                       ),
                     ),
                     
-                    // Content
                     Expanded(
                       child: FadeTransition(
                         opacity: _fadeAnimation,
@@ -367,7 +366,7 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                // Profile Header Card
+
                                 Container(
                                   width: double.infinity,
                                   padding: const EdgeInsets.all(32),
@@ -437,14 +436,12 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
                                 ),
                                 const SizedBox(height: 32),
                                 
-                                // Personal Information
                                 _buildInfoCard('Personal Information', [
                                   MapEntry('User ID', user!.userId),
                                   MapEntry('Officer Type', user!.officerType),
                                   MapEntry('Mobile', user!.mobile),
                                 ]),
                                 
-                                // Booth Information
                                 _buildInfoCard('Booth Information', [
                                   MapEntry('Booth Number', user!.boothNumber),
                                   MapEntry('Booth Name', user!.boothName),

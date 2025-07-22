@@ -42,7 +42,6 @@ class UserDb {
   Future<int> insertUser(UserModel user) async {
     final database = await db;
 
-    // Clear any existing user first (only one user allowed)
     await database.delete('user');
 
     return await database.insert(

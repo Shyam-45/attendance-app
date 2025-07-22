@@ -17,12 +17,12 @@ List<TimeWindow> getTimeWindowsForToday() {
     // ),
     TimeWindow(
       start: today.add(const Duration(hours: 9, minutes: 30)),
-      end: today.add(const Duration(hours: 9, minutes: 45)),
+      end: today.add(const Duration(hours: 10, minutes: 45)),
       label: '9:30 – 9:45 AM',
     ),
     TimeWindow(
       start: today.add(const Duration(hours: 12, minutes: 45)),
-      end: today.add(const Duration(hours: 13)),
+      end: today.add(const Duration(hours: 13, minutes: 50)),
       label: '12:45 – 1:00 PM',
     ),
     TimeWindow(

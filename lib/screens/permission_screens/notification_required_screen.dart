@@ -179,12 +179,12 @@ class _NotificationRequiredScreenState extends State<NotificationRequiredScreen>
                           color: Colors.white.withOpacity(0.2),
                           width: 1,
                         ),
-                        backdropFilter: const ColorFilter.matrix([
-                          1, 0, 0, 0, 0,
-                          0, 1, 0, 0, 0,
-                          0, 0, 1, 0, 0,
-                          0, 0, 0, 0.8, 0,
-                        ]),
+                        // backdropFilter: const ColorFilter.matrix([
+                        //   1, 0, 0, 0, 0,
+                        //   0, 1, 0, 0, 0,
+                        //   0, 0, 1, 0, 0,
+                        //   0, 0, 0, 0.8, 0,
+                        // ]),
                       ),
                       child: Column(
                         children: [

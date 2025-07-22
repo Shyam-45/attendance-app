@@ -179,12 +179,12 @@ class _LocationRequiredScreenState extends State<LocationRequiredScreen>
                           color: Colors.white.withOpacity(0.2),
                           width: 1,
                         ),
-                        backdropFilter: const ColorFilter.matrix([
-                          1, 0, 0, 0, 0,
-                          0, 1, 0, 0, 0,
-                          0, 0, 1, 0, 0,
-                          0, 0, 0, 0.8, 0,
-                        ]),
+                        // backdropFilter: const ColorFilter.matrix([
+                        //   1, 0, 0, 0, 0,
+                        //   0, 1, 0, 0, 0,
+                        //   0, 0, 1, 0, 0,
+                        //   0, 0, 0, 0.8, 0,
+                        // ]),
                       ),
                       child: Column(
                         children: [
@@ -210,7 +210,6 @@ class _LocationRequiredScreenState extends State<LocationRequiredScreen>
                     ),
                     const SizedBox(height: 50),
                     
-                    // Settings Button
                     Container(
                       height: 64,
                       width: double.infinity,
