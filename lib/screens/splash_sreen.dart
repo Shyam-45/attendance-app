@@ -1,4 +1,3 @@
-import 'package:attendance_app/providers/app_state_provider.dart';
 import 'package:attendance_app/screens/home_screen.dart';
 import 'package:attendance_app/screens/login_screen.dart';
 import 'package:attendance_app/screens/permission_screens/location_required_screen.dart';
@@ -57,19 +56,12 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
   }
 
   Future<void> _initApp() async {
-    debugPrint("🌊 SplashScreen loading...");
+    // debugPrint("🌊 SplashScreen loading...");
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('auth_token');
 
-    // await Future.delayed(const Duration(milliseconds: 500));
-
-    //  while (ref.read(appStateProvider).isLoading) {
-    //     await Future.delayed(const Duration(milliseconds: 100));
-    //   }
-
-    // final appState = ref.read(appStateProvider);
-    debugPrint("printing: $token");
-debugPrint("token_status: ${token != null && token.isNotEmpty}");
+    // debugPrint("printing: $token");
+    // debugPrint("token_status: ${token != null && token.isNotEmpty}");
 
     if (!(token != null && token.isNotEmpty)) {
       Navigator.pushReplacement(
@@ -86,9 +78,9 @@ debugPrint("token_status: ${token != null && token.isNotEmpty}");
       return;
     }
 
-    debugPrint("🔐 User is logged in");
+    // debugPrint("🔐 User is logged in");
 
-    debugPrint("🔔 Checking notification permission...");
+    // debugPrint("🔔 Checking notification permission...");
     bool notifGranted = await checkNotificationPermission();
     if (!notifGranted) {
       if (!mounted) return;
@@ -98,13 +90,13 @@ debugPrint("token_status: ${token != null && token.isNotEmpty}");
       );
 
       if (granted != true) {
-        debugPrint("❌ Notifications not granted");
+        // debugPrint("❌ Notifications not granted");
         return;
       }
-      debugPrint("✅ Notifications granted after screen");
+      // debugPrint("✅ Notifications granted after screen");
     }
 
-    debugPrint("📍 Checking location permission...");
+    // debugPrint("📍 Checking location permission...");
     bool locationGranted = await checkLocationPermission();
     if (!locationGranted) {
       if (!mounted) return;
@@ -113,14 +105,14 @@ debugPrint("token_status: ${token != null && token.isNotEmpty}");
         MaterialPageRoute(builder: (_) => const LocationRequiredScreen()),
       );
       if (locGranted != true) {
-        debugPrint("❌ Location permission still not granted");
+        // debugPrint("❌ Location permission still not granted");
         return;
       }
-      debugPrint("✅ Location granted after screen");
+      // debugPrint("✅ Location granted after screen");
     }
 
     if (!mounted) return;
-    debugPrint("🏠 Navigating to HomeScreen");
+    // debugPrint("🏠 Navigating to HomeScreen");
     Navigator.pushReplacement(
       context,
       PageRouteBuilder(

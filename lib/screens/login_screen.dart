@@ -1,5 +1,5 @@
-import 'package:attendance_app/screens/splash_sreen.dart';
 import 'package:flutter/material.dart';
+import 'package:attendance_app/screens/splash_sreen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:attendance_app/services/auth_user.dart';
@@ -83,12 +83,12 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with TickerProviderSt
       await ref.read(appStateProvider.notifier).setLogin(token, user.userId);
 
       final userDb = UserDb();
-      debugPrint('🧪 Inserting user to DB...');
+      // debugPrint('🧪 Inserting user to DB...');
       await userDb.insertUser(user);
 
       await saveAuthToken(token);
 
-      debugPrint('✅ Insert done. Navigating...');
+      // debugPrint('✅ Insert done. Navigating...');
       if (!mounted) return;
       Navigator.pushReplacement(
         context,

@@ -52,7 +52,7 @@ class UploadEntryDB {
 
   Future<List<UploadEntry>> getEntriesForDate(DateTime date) async {
     final database = await db;
-    final formatted = date.toIso8601String().substring(0, 10); // yyyy-MM-dd
+    final formatted = date.toIso8601String().substring(0, 10);
     final result = await database.query(
       'upload_entries',
       where: 'date = ?',

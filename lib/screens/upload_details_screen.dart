@@ -12,16 +12,14 @@ import 'package:attendance_app/providers/app_state_provider.dart';
 class UploadDetailsScreen extends ConsumerStatefulWidget {
   final UploadEntry entry;
 
-  const UploadDetailsScreen({
-    super.key,
-    required this.entry,
-  });
+  const UploadDetailsScreen({super.key, required this.entry});
 
   @override
-  ConsumerState<UploadDetailsScreen> createState() => _UploadDetailsScreenState();
+  ConsumerState<UploadDetailsScreen> createState() =>
+      _UploadDetailsScreenState();
 }
 
-class _UploadDetailsScreenState extends ConsumerState<UploadDetailsScreen> 
+class _UploadDetailsScreenState extends ConsumerState<UploadDetailsScreen>
     with TickerProviderStateMixin {
   File? _imageFile;
   double? _latitude;
@@ -52,9 +50,10 @@ class _UploadDetailsScreenState extends ConsumerState<UploadDetailsScreen>
       end: Offset.zero,
     ).animate(CurvedAnimation(parent: _slideController, curve: Curves.easeOut));
 
-    _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _fadeController, curve: Curves.easeOut),
-    );
+    _fadeAnimation = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(CurvedAnimation(parent: _fadeController, curve: Curves.easeOut));
 
     _fadeController.forward();
     _slideController.forward();
@@ -106,7 +105,10 @@ class _UploadDetailsScreenState extends ConsumerState<UploadDetailsScreen>
     final token = ref.read(appStateProvider).authToken;
 
     if (userId == null || token == null) {
-      _showSnackbar("❌ Authentication error. Please login again.", isSuccess: false);
+      _showSnackbar(
+        "❌ Authentication error. Please login again.",
+        isSuccess: false,
+      );
       return;
     }
 
@@ -185,7 +187,7 @@ class _UploadDetailsScreenState extends ConsumerState<UploadDetailsScreen>
             ],
           ),
         ),
-        backgroundColor: isSuccess 
+        backgroundColor: isSuccess
             ? const Color(0xFF10B981)
             : const Color(0xFFDC2626),
         behavior: SnackBarBehavior.floating,
@@ -207,16 +209,12 @@ class _UploadDetailsScreenState extends ConsumerState<UploadDetailsScreen>
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [
-              Color(0xFF0F172A),
-              Color(0xFF1E293B),
-            ],
+            colors: [Color(0xFF0F172A), Color(0xFF1E293B)],
           ),
         ),
         child: SafeArea(
           child: Column(
             children: [
-
               Container(
                 padding: const EdgeInsets.all(20),
                 child: Row(
@@ -231,7 +229,10 @@ class _UploadDetailsScreenState extends ConsumerState<UploadDetailsScreen>
                         ),
                       ),
                       child: IconButton(
-                        icon: const Icon(Icons.arrow_back_ios_rounded, color: Colors.white),
+                        icon: const Icon(
+                          Icons.arrow_back_ios_rounded,
+                          color: Colors.white,
+                        ),
                         onPressed: () => Navigator.pop(context),
                       ),
                     ),
@@ -262,7 +263,7 @@ class _UploadDetailsScreenState extends ConsumerState<UploadDetailsScreen>
                   ],
                 ),
               ),
-              
+
               Expanded(
                 child: FadeTransition(
                   opacity: _fadeAnimation,
@@ -307,7 +308,9 @@ class _UploadDetailsScreenState extends ConsumerState<UploadDetailsScreen>
                                         padding: const EdgeInsets.all(20),
                                         decoration: BoxDecoration(
                                           color: Colors.white.withOpacity(0.05),
-                                          borderRadius: BorderRadius.circular(20),
+                                          borderRadius: BorderRadius.circular(
+                                            20,
+                                          ),
                                         ),
                                         child: Icon(
                                           Icons.camera_alt_rounded,
@@ -342,21 +345,29 @@ class _UploadDetailsScreenState extends ConsumerState<UploadDetailsScreen>
                             height: 64,
                             decoration: BoxDecoration(
                               gradient: const LinearGradient(
-                                colors: [Color(0xFF10B981), Color(0xFF059669), Color(0xFF047857)],
+                                colors: [
+                                  Color(0xFF10B981),
+                                  Color(0xFF059669),
+                                  Color(0xFF047857),
+                                ],
                                 begin: Alignment.centerLeft,
                                 end: Alignment.centerRight,
                               ),
                               borderRadius: BorderRadius.circular(20),
                               boxShadow: [
                                 BoxShadow(
-                                  color: const Color(0xFF10B981).withOpacity(0.4),
+                                  color: const Color(
+                                    0xFF10B981,
+                                  ).withOpacity(0.4),
                                   blurRadius: 20,
                                   offset: const Offset(0, 8),
                                 ),
                               ],
                             ),
                             child: ElevatedButton.icon(
-                              onPressed: isBusy ? null : () => _pickImage(ImageSource.camera),
+                              onPressed: isBusy
+                                  ? null
+                                  : () => _pickImage(ImageSource.camera),
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.transparent,
                                 shadowColor: Colors.transparent,
@@ -413,9 +424,10 @@ class _UploadDetailsScreenState extends ConsumerState<UploadDetailsScreen>
                                       height: 24,
                                       child: CircularProgressIndicator(
                                         strokeWidth: 2,
-                                        valueColor: AlwaysStoppedAnimation<Color>(
-                                          const Color(0xFF3B82F6),
-                                        ),
+                                        valueColor:
+                                            AlwaysStoppedAnimation<Color>(
+                                              const Color(0xFF3B82F6),
+                                            ),
                                       ),
                                     )
                                   : const Icon(
@@ -424,7 +436,9 @@ class _UploadDetailsScreenState extends ConsumerState<UploadDetailsScreen>
                                       size: 28,
                                     ),
                               label: Text(
-                                _isFetchingLocation ? "Getting Location..." : "Get Current Location",
+                                _isFetchingLocation
+                                    ? "Getting Location..."
+                                    : "Get Current Location",
                                 style: const TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w600,
@@ -449,7 +463,9 @@ class _UploadDetailsScreenState extends ConsumerState<UploadDetailsScreen>
                                 ),
                                 borderRadius: BorderRadius.circular(20),
                                 border: Border.all(
-                                  color: const Color(0xFF10B981).withOpacity(0.3),
+                                  color: const Color(
+                                    0xFF10B981,
+                                  ).withOpacity(0.3),
                                   width: 1,
                                 ),
                               ),
@@ -458,7 +474,9 @@ class _UploadDetailsScreenState extends ConsumerState<UploadDetailsScreen>
                                   Container(
                                     padding: const EdgeInsets.all(12),
                                     decoration: BoxDecoration(
-                                      color: const Color(0xFF10B981).withOpacity(0.2),
+                                      color: const Color(
+                                        0xFF10B981,
+                                      ).withOpacity(0.2),
                                       borderRadius: BorderRadius.circular(12),
                                     ),
                                     child: const Icon(
@@ -470,7 +488,8 @@ class _UploadDetailsScreenState extends ConsumerState<UploadDetailsScreen>
                                   const SizedBox(width: 16),
                                   Expanded(
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         const Text(
                                           "Location Captured",
@@ -484,7 +503,9 @@ class _UploadDetailsScreenState extends ConsumerState<UploadDetailsScreen>
                                         Text(
                                           "Lat: ${_latitude!.toStringAsFixed(6)}\nLng: ${_longitude!.toStringAsFixed(6)}",
                                           style: TextStyle(
-                                            color: Colors.white.withOpacity(0.7),
+                                            color: Colors.white.withOpacity(
+                                              0.7,
+                                            ),
                                             fontSize: 12,
                                             fontWeight: FontWeight.w400,
                                           ),
@@ -507,22 +528,30 @@ class _UploadDetailsScreenState extends ConsumerState<UploadDetailsScreen>
                           Container(
                             height: 64,
                             decoration: BoxDecoration(
-                              gradient: isBusy 
-                                  ? null 
+                              gradient: isBusy
+                                  ? null
                                   : const LinearGradient(
-                                      colors: [Color(0xFF3B82F6), Color(0xFF2563EB), Color(0xFF1D4ED8)],
+                                      colors: [
+                                        Color(0xFF3B82F6),
+                                        Color(0xFF2563EB),
+                                        Color(0xFF1D4ED8),
+                                      ],
                                       begin: Alignment.centerLeft,
                                       end: Alignment.centerRight,
                                     ),
                               color: isBusy ? const Color(0xFF374151) : null,
                               borderRadius: BorderRadius.circular(20),
-                              boxShadow: isBusy ? null : [
-                                BoxShadow(
-                                  color: const Color(0xFF3B82F6).withOpacity(0.4),
-                                  blurRadius: 20,
-                                  offset: const Offset(0, 8),
-                                ),
-                              ],
+                              boxShadow: isBusy
+                                  ? null
+                                  : [
+                                      BoxShadow(
+                                        color: const Color(
+                                          0xFF3B82F6,
+                                        ).withOpacity(0.4),
+                                        blurRadius: 20,
+                                        offset: const Offset(0, 8),
+                                      ),
+                                    ],
                             ),
                             child: ElevatedButton(
                               onPressed: isBusy ? null : _submit,
@@ -535,7 +564,8 @@ class _UploadDetailsScreenState extends ConsumerState<UploadDetailsScreen>
                               ),
                               child: isBusy && _isSubmitting
                                   ? Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: const [
                                         SizedBox(
                                           height: 24,
