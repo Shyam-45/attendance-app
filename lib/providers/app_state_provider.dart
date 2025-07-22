@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:attendance_app/models/app_state.dart';
@@ -6,51 +7,118 @@ class AppStateNotifier extends StateNotifier<AppState> {
   final Ref ref;
 
   AppStateNotifier(this.ref) : super(AppState.initial()) {
-    loadFromPrefs();
+    _loadFromPrefs();
   }
 
-  Future<void> loadFromPrefs() async {
-      final prefs = SharedPreferencesAsync();
-    final token = await prefs.getString('auth_token');
-    final userId = await prefs.getString('user_id'); // ✅
-    final disabled = await prefs.getBool('user_disabled_today') ?? false;
+  Future<void> _loadFromPrefs() async {
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('auth_token');
+    final userId = prefs.getString('user_id');
 
     if (token != null && userId != null) {
       state = state.copyWith(
         isLoggedIn: true,
         authToken: token,
-        userId: userId, // ✅
-        userDisabledToday: disabled,
+        userId: userId,
       );
+    } else {
+      // state = AppState.initial();
+       state = AppState.initial().copyWith(isLoading: false);
     }
   }
 
   Future<void> setLogin(String token, String userId) async {
-      final prefs = SharedPreferencesAsync();
+    final prefs = await SharedPreferences.getInstance();
     await prefs.setString('auth_token', token);
-    await prefs.setString('user_id', userId); // ✅
+    await prefs.setString('user_id', userId);
+
     state = state.copyWith(
       isLoggedIn: true,
       authToken: token,
-      userId: userId, // ✅
+      userId: userId,
     );
+
+    debugPrint('Token saved: $token');
+    debugPrint('User ID saved: $userId');
   }
 
   Future<void> setTrackingDisabledToday(bool value) async {
-      final prefs = SharedPreferencesAsync();
+    final prefs = await SharedPreferences.getInstance();
     await prefs.setBool('user_disabled_today', value);
-    state = state.copyWith(userDisabledToday: value);
   }
 
   Future<void> logout() async {
-      final prefs = SharedPreferencesAsync();
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove('auth_token');
     await prefs.clear();
-    // await ref.read(lastLocationProvider.notifier).clearLocation();
 
     state = AppState.initial();
   }
 }
 
-final appStateProvider = StateNotifierProvider<AppStateNotifier, AppState>((ref) {
+final appStateProvider =
+    StateNotifierProvider<AppStateNotifier, AppState>((ref) {
   return AppStateNotifier(ref);
 });
+
+// import 'package:flutter/material.dart';
+// import 'package:flutter_riverpod/flutter_riverpod.dart';
+// import 'package:shared_preferences/shared_preferences.dart';
+// import 'package:attendance_app/models/app_state.dart';
+
+// class AppStateNotifier extends StateNotifier<AppState> {
+//   final Ref ref;
+
+//   AppStateNotifier(this.ref) : super(AppState.initial()) {
+//     loadFromPrefs();
+//   }
+
+//   Future<void> loadFromPrefs() async {
+//     final prefs = SharedPreferencesAsync();
+//     final token = await prefs.getString('auth_token');
+//     final userId = await prefs.getString('user_id'); // ✅
+//     final disabled = await prefs.getBool('user_disabled_today') ?? false;
+
+//     if (token != null && userId != null) {
+//       state = state.copyWith(
+//         isLoggedIn: true,
+//         authToken: token,
+//         userId: userId, // ✅
+//         userDisabledToday: disabled,
+//       );
+//     }
+//   }
+
+//   Future<void> setLogin(String token, String userId) async {
+//     final prefs = SharedPreferencesAsync();
+//     await prefs.setString('auth_token', token);
+//     await prefs.setString('user_id', userId); // ✅
+//     state = state.copyWith(
+//       isLoggedIn: true,
+//       authToken: token,
+//       userId: userId, // ✅
+//     );
+//     debugPrint('Token saved: ${prefs.getString('auth_token')}');
+//     debugPrint('User_id saved: ${prefs.getString('user_id')}');
+//   }
+
+//   Future<void> setTrackingDisabledToday(bool value) async {
+//     final prefs = SharedPreferencesAsync();
+//     await prefs.setBool('user_disabled_today', value);
+//     state = state.copyWith(userDisabledToday: value);
+//   }
+
+//   Future<void> logout() async {
+//     final prefs = SharedPreferencesAsync();
+//     await prefs.clear();
+//     // await ref.read(lastLocationProvider.notifier).clearLocation();
+
+//     state = AppState.initial();
+//   }
+// }
+
+// final appStateProvider = StateNotifierProvider<AppStateNotifier, AppState>((
+//   ref,
+// ) {
+//   return AppStateNotifier(ref);
+// });

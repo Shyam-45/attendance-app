@@ -7,6 +7,7 @@ import 'package:attendance_app/utils/check_location_utils.dart';
 import 'package:attendance_app/utils/check_notification_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends ConsumerStatefulWidget {
   const SplashScreen({super.key});
@@ -15,7 +16,8 @@ class SplashScreen extends ConsumerStatefulWidget {
   ConsumerState<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends ConsumerState<SplashScreen> with TickerProviderStateMixin {
+class _SplashScreenState extends ConsumerState<SplashScreen>
+    with TickerProviderStateMixin {
   late AnimationController _pulseController;
   late AnimationController _fadeController;
   late Animation<double> _pulseAnimation;
@@ -28,7 +30,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> with TickerProvider
       duration: const Duration(seconds: 2),
       vsync: this,
     )..repeat(reverse: true);
-    
+
     _fadeController = AnimationController(
       duration: const Duration(milliseconds: 800),
       vsync: this,
@@ -37,10 +39,11 @@ class _SplashScreenState extends ConsumerState<SplashScreen> with TickerProvider
     _pulseAnimation = Tween<double>(begin: 0.8, end: 1.2).animate(
       CurvedAnimation(parent: _pulseController, curve: Curves.easeInOut),
     );
-    
-    _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _fadeController, curve: Curves.easeOut),
-    );
+
+    _fadeAnimation = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(CurvedAnimation(parent: _fadeController, curve: Curves.easeOut));
 
     _fadeController.forward();
     _initApp();
@@ -55,15 +58,25 @@ class _SplashScreenState extends ConsumerState<SplashScreen> with TickerProvider
 
   Future<void> _initApp() async {
     debugPrint("🌊 SplashScreen loading...");
-    await Future.delayed(const Duration(milliseconds: 1500));
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('auth_token');
 
-    final appState = ref.read(appStateProvider);
+    // await Future.delayed(const Duration(milliseconds: 500));
 
-    if (!appState.isLoggedIn) {
+    //  while (ref.read(appStateProvider).isLoading) {
+    //     await Future.delayed(const Duration(milliseconds: 100));
+    //   }
+
+    // final appState = ref.read(appStateProvider);
+    debugPrint("printing: $token");
+debugPrint("token_status: ${token != null && token.isNotEmpty}");
+
+    if (!(token != null && token.isNotEmpty)) {
       Navigator.pushReplacement(
         context,
         PageRouteBuilder(
-          pageBuilder: (context, animation, secondaryAnimation) => const LoginScreen(),
+          pageBuilder: (context, animation, secondaryAnimation) =>
+              const LoginScreen(),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return FadeTransition(opacity: animation, child: child);
           },
@@ -75,7 +88,6 @@ class _SplashScreenState extends ConsumerState<SplashScreen> with TickerProvider
 
     debugPrint("🔐 User is logged in");
 
-    // Check notification permission
     debugPrint("🔔 Checking notification permission...");
     bool notifGranted = await checkNotificationPermission();
     if (!notifGranted) {
@@ -92,7 +104,6 @@ class _SplashScreenState extends ConsumerState<SplashScreen> with TickerProvider
       debugPrint("✅ Notifications granted after screen");
     }
 
-    // Check location permission
     debugPrint("📍 Checking location permission...");
     bool locationGranted = await checkLocationPermission();
     if (!locationGranted) {
@@ -108,13 +119,13 @@ class _SplashScreenState extends ConsumerState<SplashScreen> with TickerProvider
       debugPrint("✅ Location granted after screen");
     }
 
-    // Navigate to Home
     if (!mounted) return;
     debugPrint("🏠 Navigating to HomeScreen");
     Navigator.pushReplacement(
       context,
       PageRouteBuilder(
-        pageBuilder: (context, animation, secondaryAnimation) => const HomeScreen(),
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            const HomeScreen(),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           return FadeTransition(opacity: animation, child: child);
         },
@@ -147,7 +158,6 @@ class _SplashScreenState extends ConsumerState<SplashScreen> with TickerProvider
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  // Animated Logo
                   AnimatedBuilder(
                     animation: _pulseAnimation,
                     builder: (context, child) {
@@ -185,8 +195,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> with TickerProvider
                     },
                   ),
                   const SizedBox(height: 50),
-                  
-                  // App Title
+
                   const Text(
                     "AttendanceTracker",
                     style: TextStyle(
@@ -197,8 +206,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> with TickerProvider
                     ),
                   ),
                   const SizedBox(height: 12),
-                  
-                  // Subtitle
+
                   Text(
                     "Smart Attendance Management",
                     style: TextStyle(
@@ -209,10 +217,12 @@ class _SplashScreenState extends ConsumerState<SplashScreen> with TickerProvider
                     ),
                   ),
                   const SizedBox(height: 60),
-                  
-                  // Loading Indicator
+
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 32,
+                      vertical: 16,
+                    ),
                     decoration: BoxDecoration(
                       color: Colors.white.withOpacity(0.1),
                       borderRadius: BorderRadius.circular(25),

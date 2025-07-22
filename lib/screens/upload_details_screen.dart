@@ -216,7 +216,7 @@ class _UploadDetailsScreenState extends ConsumerState<UploadDetailsScreen>
         child: SafeArea(
           child: Column(
             children: [
-              // Custom App Bar
+
               Container(
                 padding: const EdgeInsets.all(20),
                 child: Row(
@@ -263,7 +263,6 @@ class _UploadDetailsScreenState extends ConsumerState<UploadDetailsScreen>
                 ),
               ),
               
-              // Content
               Expanded(
                 child: FadeTransition(
                   opacity: _fadeAnimation,
@@ -274,7 +273,6 @@ class _UploadDetailsScreenState extends ConsumerState<UploadDetailsScreen>
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          // Image Preview Section
                           Container(
                             height: 280,
                             decoration: BoxDecoration(
@@ -340,7 +338,6 @@ class _UploadDetailsScreenState extends ConsumerState<UploadDetailsScreen>
                           ),
                           const SizedBox(height: 32),
 
-                          // Camera Button
                           Container(
                             height: 64,
                             decoration: BoxDecoration(
@@ -384,7 +381,6 @@ class _UploadDetailsScreenState extends ConsumerState<UploadDetailsScreen>
                           ),
                           const SizedBox(height: 20),
 
-                          // Location Button
                           Container(
                             height: 64,
                             decoration: BoxDecoration(
@@ -438,7 +434,6 @@ class _UploadDetailsScreenState extends ConsumerState<UploadDetailsScreen>
                             ),
                           ),
 
-                          // Location Display
                           if (_latitude != null && _longitude != null) ...[
                             const SizedBox(height: 24),
                             Container(
@@ -509,7 +504,6 @@ class _UploadDetailsScreenState extends ConsumerState<UploadDetailsScreen>
 
                           const SizedBox(height: 40),
 
-                          // Submit Button
                           Container(
                             height: 64,
                             decoration: BoxDecoration(

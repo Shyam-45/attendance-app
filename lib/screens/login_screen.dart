@@ -6,6 +6,7 @@ import 'package:attendance_app/services/auth_user.dart';
 import 'package:attendance_app/models/user_model.dart';
 import 'package:attendance_app/database/user_db.dart';
 import 'package:attendance_app/providers/app_state_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -15,6 +16,10 @@ class LoginScreen extends ConsumerStatefulWidget {
 }
 
 class _LoginScreenState extends ConsumerState<LoginScreen> with TickerProviderStateMixin {
+  Future<void> saveAuthToken(String token) async {
+  final prefs = await SharedPreferences.getInstance();
+  await prefs.setString('auth_token', token);
+}
   final _formKey = GlobalKey<FormState>();
   String email = '';
   String password = '';
@@ -75,15 +80,15 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with TickerProviderSt
       final token = response['token'];
       final user = UserModel.fromJson(response['user']);
 
-      // Save token and login state
       await ref.read(appStateProvider.notifier).setLogin(token, user.userId);
 
-      // Save user to local DB
       final userDb = UserDb();
-      print('🧪 Inserting user to DB...');
+      debugPrint('🧪 Inserting user to DB...');
       await userDb.insertUser(user);
 
-      print('✅ Insert done. Navigating...');
+      await saveAuthToken(token);
+
+      debugPrint('✅ Insert done. Navigating...');
       if (!mounted) return;
       Navigator.pushReplacement(
         context,
@@ -136,7 +141,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with TickerProviderSt
                     children: [
                       const SizedBox(height: 60),
                       
-                      // Logo Section
                       Center(
                         child: Container(
                           width: 120,
@@ -169,7 +173,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with TickerProviderSt
                       ),
                       const SizedBox(height: 40),
                       
-                      // Welcome Text
                       const Text(
                         "Welcome Back",
                         style: TextStyle(
@@ -192,7 +195,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with TickerProviderSt
                       ),
                       const SizedBox(height: 50),
                       
-                      // Error Message
                       if (errorMessage != null) ...[
                         Container(
                           padding: const EdgeInsets.all(16),
@@ -228,7 +230,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with TickerProviderSt
                         const SizedBox(height: 24),
                       ],
                       
-                      // Email Field
                       Container(
                         decoration: BoxDecoration(
                           color: const Color(0xFF1E293B),
@@ -274,7 +275,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with TickerProviderSt
                       ),
                       const SizedBox(height: 20),
                       
-                      // Password Field
                       Container(
                         decoration: BoxDecoration(
                           color: const Color(0xFF1E293B),
@@ -332,7 +332,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with TickerProviderSt
                       ),
                       const SizedBox(height: 40),
                       
-                      // Login Button
                       Container(
                         height: 60,
                         decoration: BoxDecoration(

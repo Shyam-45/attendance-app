@@ -4,7 +4,7 @@ class UploadEntry {
   final String slotLabel;
   final DateTime slotStart;
   final DateTime slotEnd;
-  final String status; // 'done', 'missed', 'pending'
+  final String status;
   final String? imagePath;
   final double? latitude;
   final double? longitude;
@@ -51,7 +51,7 @@ class UploadEntry {
 
   Map<String, dynamic> toMap() {
     final map = {
-      'date': date.toIso8601String().substring(0, 10), // Store only date part
+      'date': date.toIso8601String().substring(0, 10),
       'slotLabel': slotLabel,
       'slotStart': slotStart.toIso8601String(),
       'slotEnd': slotEnd.toIso8601String(),
