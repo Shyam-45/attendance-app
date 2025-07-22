@@ -119,27 +119,177 @@ class _UploadScreenState extends State<UploadScreen>
     List<UploadEntry> entries, {
     bool isActive = false,
   }) {
+    Color sectionColor;
+    IconData sectionIcon;
+    
+    if (title.contains('Active')) {
+      sectionColor = const Color(0xFF10B981);
+      sectionIcon = Icons.play_circle_outline;
+    } else if (title.contains('Upcoming')) {
+      sectionColor = const Color(0xFFF59E0B);
+      sectionIcon = Icons.schedule_outlined;
+    } else {
+      sectionColor = const Color(0xFF6B7280);
+      sectionIcon = Icons.history_outlined;
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12),
-          child: Text(
-            title,
-            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        Container(
+          margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          decoration: BoxDecoration(
+            color: sectionColor.withOpacity(0.1),
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(
+              color: sectionColor.withOpacity(0.3),
+              width: 1,
+            ),
+          ),
+          child: Row(
+            children: [
+              Icon(
+                sectionIcon,
+                color: sectionColor,
+                size: 20,
+              ),
+              const SizedBox(width: 12),
+              Text(
+                title,
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: sectionColor,
+                ),
+              ),
+              const Spacer(),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                decoration: BoxDecoration(
+                  color: sectionColor.withOpacity(0.2),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Text(
+                  '${entries.length}',
+                  style: TextStyle(
+                    color: sectionColor,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 12,
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
         if (entries.isEmpty)
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-            child: Text('No entries available.'),
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 16),
+            padding: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              color: const Color(0xFF2D2E3F),
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(
+                color: Colors.white.withOpacity(0.1),
+                width: 1,
+              ),
+            ),
+            child: Center(
+              child: Column(
+                children: [
+                  Icon(
+                    Icons.inbox_outlined,
+                    size: 48,
+                    color: Colors.white.withOpacity(0.3),
+                  ),
+                  const SizedBox(height: 12),
+                  Text(
+                    'No entries available',
+                    style: TextStyle(
+                      color: Colors.white.withOpacity(0.6),
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ],
+              ),
+            ),
           )
         else
           ...entries.map(
             (entry) => ListTile(
-              title: Text(entry.slotLabel),
-              subtitle: _statusSubtitle(entry),
-              trailing: isActive ? const Icon(Icons.arrow_forward_ios) : null,
+              contentPadding: EdgeInsets.zero,
+              title: Container(
+                margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: const Color(0xFF2D2E3F),
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(
+                    color: Colors.white.withOpacity(0.1),
+                    width: 1,
+                  ),
+                ),
+                child: Row(
+                  children: [
+                    Container(
+                      width: 48,
+                      height: 48,
+                      decoration: BoxDecoration(
+                        color: _getStatusColor(entry.status).withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(
+                          color: _getStatusColor(entry.status).withOpacity(0.3),
+                          width: 1,
+                        ),
+                      ),
+                      child: Icon(
+                        _getStatusIcon(entry.status),
+                        color: _getStatusColor(entry.status),
+                        size: 24,
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            entry.slotLabel,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          _statusSubtitle(entry),
+                        ],
+                      ),
+                    ),
+                    if (isActive) ...[
+                      const SizedBox(width: 12),
+                      Container(
+                        width: 36,
+                        height: 36,
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF4F46E5).withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(
+                            color: const Color(0xFF4F46E5).withOpacity(0.3),
+                            width: 1,
+                          ),
+                        ),
+                        child: const Icon(
+                          Icons.arrow_forward_ios,
+                          color: Color(0xFF4F46E5),
+                          size: 16,
+                        ),
+                      ),
+                    ],
+                  ],
+                ),
+              ),
               onTap: isActive
                   ? () async {
                       // Navigator.push(
@@ -173,24 +323,63 @@ class _UploadScreenState extends State<UploadScreen>
     );
   }
 
+  Color _getStatusColor(String status) {
+    switch (status) {
+      case 'done':
+        return const Color(0xFF10B981);
+      case 'missed':
+        return const Color(0xFFEF4444);
+      default:
+        return const Color(0xFFF59E0B);
+    }
+  }
+
+  IconData _getStatusIcon(String status) {
+    switch (status) {
+      case 'done':
+        return Icons.check_circle_outline;
+      case 'missed':
+        return Icons.cancel_outlined;
+      default:
+        return Icons.schedule_outlined;
+    }
+  }
+
   Widget _statusSubtitle(UploadEntry entry) {
+    Color statusColor = _getStatusColor(entry.status);
+    String statusText;
+    
     switch (entry.status) {
       case 'done':
-        return const Text(
-          'Uploaded',
-          style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold),
-        );
+        statusText = 'Uploaded';
+        break;
       case 'missed':
-        return const Text(
-          'Missed',
-          style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
-        );
+        statusText = 'Missed';
+        break;
       default:
-        return const Text(
-          'Pending',
-          style: TextStyle(color: Colors.orange, fontWeight: FontWeight.bold),
-        );
+        statusText = 'Pending';
+        break;
     }
+    
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      decoration: BoxDecoration(
+        color: statusColor.withOpacity(0.1),
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(
+          color: statusColor.withOpacity(0.3),
+          width: 1,
+        ),
+      ),
+      child: Text(
+        statusText,
+        style: TextStyle(
+          color: statusColor,
+          fontWeight: FontWeight.w600,
+          fontSize: 12,
+        ),
+      ),
+    );
   }
 
   @override
@@ -235,15 +424,45 @@ final past = _entries
     //     .toList();
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Upload Entries')),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildSection('Active Entry', active, isActive: true),
-            _buildSection('Upcoming Entries', upcoming),
-            _buildSection('Past Entries', past),
-          ],
+      backgroundColor: const Color(0xFF1A1B23),
+      appBar: AppBar(
+        backgroundColor: const Color(0xFF1A1B23),
+        elevation: 0,
+        title: const Text(
+          'Upload Entries',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        centerTitle: false,
+      ),
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Color(0xFF1A1B23),
+              Color(0xFF2D2E3F),
+            ],
+          ),
+        ),
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildSection('Active Entry', active, isActive: true),
+                const SizedBox(height: 8),
+                _buildSection('Upcoming Entries', upcoming),
+                const SizedBox(height: 8),
+                _buildSection('Past Entries', past),
+              ],
+            ),
+          ),
         ),
       ),
     );
