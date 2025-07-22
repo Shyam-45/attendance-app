@@ -10,39 +10,24 @@ List<TimeWindow> getTimeWindowsForToday() {
       end: today.add(const Duration(hours: 6, minutes: 15)),
       label: '6:00 – 6:15 AM',
     ),
-    //     TimeWindow(
-    //   start: today.add(const Duration(hours: 7, minutes: 45)),
-    //   end: today.add(const Duration(hours: 9, minutes: 15)),
-    //   label: '9:30 – 9:45 AM',
-    // ),
     TimeWindow(
-      start: today.add(const Duration(hours: 9, minutes: 30)),
-      end: today.add(const Duration(hours: 10, minutes: 45)),
-      label: '9:30 – 9:45 AM',
+      start: today.add(const Duration(hours: 8, minutes: 30)),
+      end: today.add(const Duration(hours: 8, minutes: 45)),
+      label: '8:30 – 8:45 AM',
     ),
     TimeWindow(
-      start: today.add(const Duration(hours: 12, minutes: 45)),
-      end: today.add(const Duration(hours: 13, minutes: 50)),
-      label: '12:45 – 1:00 PM',
+      start: today.add(const Duration(hours: 11)),
+      end: today.add(const Duration(hours: 11, minutes: 15)),
+      label: '11:00 – 11:15 AM',
     ),
     TimeWindow(
-      start: today.add(const Duration(hours: 14, minutes: 15)),
-      end: today.add(const Duration(hours: 14, minutes: 30)),
-      label: '2:15 – 2:30 PM',
+      start: today.add(const Duration(hours: 14)),
+      end: today.add(const Duration(hours: 14, minutes: 15)),
+      label: '2:15 – 2:15 PM',
     ),
-    // TimeWindow(
-    //   start: today.add(const Duration(hours: 17, minutes: 45)),
-    //   end: today.add(const Duration(hours: 18)),
-    //   label: '5:45 – 6:00 PM',
-    // ),
-    // TimeWindow(
-    //   start: today.add(const Duration(hours: 16, minutes: 40)),
-    //   end: today.add(const Duration(hours: 18)),
-    //   label: '5:45 – 6:00 PM',
-    // ),
-        TimeWindow(
-      start: today.add(const Duration(hours: 16, minutes: 40)),
-      end: today.add(const Duration(hours: 19, minutes: 45)),
+    TimeWindow(
+      start: today.add(const Duration(hours: 17, minutes: 45)),
+      end: today.add(const Duration(hours: 18)),
       label: '5:45 – 6:00 PM',
     ),
   ];

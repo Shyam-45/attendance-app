@@ -23,15 +23,16 @@ class _UploadScreenState extends State<UploadScreen>
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    
+
     _fadeController = AnimationController(
       duration: const Duration(milliseconds: 600),
       vsync: this,
     );
-    _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _fadeController, curve: Curves.easeOut),
-    );
-    
+    _fadeAnimation = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(CurvedAnimation(parent: _fadeController, curve: Curves.easeOut));
+
     _initializeEntries();
     _startAutoRefresh();
     _fadeController.forward();
@@ -133,7 +134,7 @@ class _UploadScreenState extends State<UploadScreen>
   }) {
     Color sectionColor;
     IconData sectionIcon;
-    
+
     if (title.contains('Active')) {
       sectionColor = const Color(0xFF10B981);
       sectionIcon = Icons.play_circle_filled;
@@ -176,11 +177,7 @@ class _UploadScreenState extends State<UploadScreen>
                     color: sectionColor.withOpacity(0.2),
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  child: Icon(
-                    sectionIcon,
-                    color: sectionColor,
-                    size: 20,
-                  ),
+                  child: Icon(sectionIcon, color: sectionColor, size: 20),
                 ),
                 const SizedBox(width: 16),
                 Expanded(
@@ -194,7 +191,10 @@ class _UploadScreenState extends State<UploadScreen>
                   ),
                 ),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 6,
+                  ),
                   decoration: BoxDecoration(
                     color: sectionColor.withOpacity(0.2),
                     borderRadius: BorderRadius.circular(20),
@@ -273,17 +273,24 @@ class _UploadScreenState extends State<UploadScreen>
                             final result = await Navigator.push(
                               context,
                               PageRouteBuilder(
-                                pageBuilder: (context, animation, secondaryAnimation) =>
-                                    UploadDetailsScreen(entry: entry.value),
-                                transitionsBuilder: (context, animation, secondaryAnimation, child) {
-                                  return SlideTransition(
-                                    position: Tween<Offset>(
-                                      begin: const Offset(1.0, 0.0),
-                                      end: Offset.zero,
-                                    ).animate(animation),
-                                    child: child,
-                                  );
-                                },
+                                pageBuilder:
+                                    (context, animation, secondaryAnimation) =>
+                                        UploadDetailsScreen(entry: entry.value),
+                                transitionsBuilder:
+                                    (
+                                      context,
+                                      animation,
+                                      secondaryAnimation,
+                                      child,
+                                    ) {
+                                      return SlideTransition(
+                                        position: Tween<Offset>(
+                                          begin: const Offset(1.0, 0.0),
+                                          end: Offset.zero,
+                                        ).animate(animation),
+                                        child: child,
+                                      );
+                                    },
                               ),
                             );
 
@@ -299,7 +306,7 @@ class _UploadScreenState extends State<UploadScreen>
                         color: const Color(0xFF1E293B),
                         borderRadius: BorderRadius.circular(16),
                         border: Border.all(
-                          color: isActive 
+                          color: isActive
                               ? const Color(0xFF3B82F6).withOpacity(0.3)
                               : Colors.white.withOpacity(0.1),
                           width: 1,
@@ -320,15 +327,21 @@ class _UploadScreenState extends State<UploadScreen>
                             decoration: BoxDecoration(
                               gradient: LinearGradient(
                                 colors: [
-                                  _getStatusColor(entry.value.status).withOpacity(0.2),
-                                  _getStatusColor(entry.value.status).withOpacity(0.1),
+                                  _getStatusColor(
+                                    entry.value.status,
+                                  ).withOpacity(0.2),
+                                  _getStatusColor(
+                                    entry.value.status,
+                                  ).withOpacity(0.1),
                                 ],
                                 begin: Alignment.topLeft,
                                 end: Alignment.bottomRight,
                               ),
                               borderRadius: BorderRadius.circular(16),
                               border: Border.all(
-                                color: _getStatusColor(entry.value.status).withOpacity(0.3),
+                                color: _getStatusColor(
+                                  entry.value.status,
+                                ).withOpacity(0.3),
                                 width: 1,
                               ),
                             ),
@@ -364,7 +377,9 @@ class _UploadScreenState extends State<UploadScreen>
                                 color: const Color(0xFF3B82F6).withOpacity(0.1),
                                 borderRadius: BorderRadius.circular(12),
                                 border: Border.all(
-                                  color: const Color(0xFF3B82F6).withOpacity(0.3),
+                                  color: const Color(
+                                    0xFF3B82F6,
+                                  ).withOpacity(0.3),
                                   width: 1,
                                 ),
                               ),
@@ -412,7 +427,7 @@ class _UploadScreenState extends State<UploadScreen>
   Widget _statusSubtitle(UploadEntry entry) {
     Color statusColor = _getStatusColor(entry.status);
     String statusText;
-    
+
     switch (entry.status) {
       case 'done':
         statusText = 'Completed Successfully';
@@ -424,16 +439,13 @@ class _UploadScreenState extends State<UploadScreen>
         statusText = 'Awaiting Upload';
         break;
     }
-    
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
         color: statusColor.withOpacity(0.1),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: statusColor.withOpacity(0.2),
-          width: 1,
-        ),
+        border: Border.all(color: statusColor.withOpacity(0.2), width: 1),
       ),
       child: Text(
         statusText,
@@ -451,17 +463,21 @@ class _UploadScreenState extends State<UploadScreen>
     final now = DateTime.now();
 
     final active = _entries
-        .where((e) =>
-            now.isAfter(e.slotStart) &&
-            now.isBefore(e.slotEnd) &&
-            e.status == 'pending')
+        .where(
+          (e) =>
+              now.isAfter(e.slotStart) &&
+              now.isBefore(e.slotEnd) &&
+              e.status == 'pending',
+        )
         .toList();
 
     final upcoming = _entries
-        .where((e) =>
-            e.status == 'pending' &&
-            now.isBefore(e.slotStart) &&
-            now.isBefore(e.slotEnd))
+        .where(
+          (e) =>
+              e.status == 'pending' &&
+              now.isBefore(e.slotStart) &&
+              now.isBefore(e.slotEnd),
+        )
         .toList();
 
     final past = _entries
@@ -475,10 +491,7 @@ class _UploadScreenState extends State<UploadScreen>
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [
-              Color(0xFF0F172A),
-              Color(0xFF1E293B),
-            ],
+            colors: [Color(0xFF0F172A), Color(0xFF1E293B)],
           ),
         ),
         child: SafeArea(
@@ -532,7 +545,7 @@ class _UploadScreenState extends State<UploadScreen>
                   ],
                 ),
               ),
-              
+
               // Content
               Expanded(
                 child: SingleChildScrollView(

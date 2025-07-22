@@ -21,12 +21,12 @@ class _NotificationRequiredScreenState extends State<NotificationRequiredScreen>
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    
+
     _pulseController = AnimationController(
       duration: const Duration(seconds: 2),
       vsync: this,
     )..repeat(reverse: true);
-    
+
     _fadeController = AnimationController(
       duration: const Duration(milliseconds: 800),
       vsync: this,
@@ -35,10 +35,11 @@ class _NotificationRequiredScreenState extends State<NotificationRequiredScreen>
     _pulseAnimation = Tween<double>(begin: 0.8, end: 1.2).animate(
       CurvedAnimation(parent: _pulseController, curve: Curves.easeInOut),
     );
-    
-    _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _fadeController, curve: Curves.easeOut),
-    );
+
+    _fadeAnimation = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(CurvedAnimation(parent: _fadeController, curve: Curves.easeOut));
 
     _fadeController.forward();
     _checkPermissionAndReturn();
@@ -64,11 +65,11 @@ class _NotificationRequiredScreenState extends State<NotificationRequiredScreen>
 
     if (status.isGranted && !_hasNavigatedBack) {
       _hasNavigatedBack = true;
-      debugPrint("✅ Notification permission granted → Returning");
+      // debugPrint("✅ Notification permission granted → Returning");
       if (!mounted) return;
       Navigator.pop(context, true);
     } else {
-      debugPrint("🔴 Still missing notification permission");
+      // debugPrint("🔴 Still missing notification permission");
     }
   }
 
@@ -78,7 +79,7 @@ class _NotificationRequiredScreenState extends State<NotificationRequiredScreen>
 
   @override
   Widget build(BuildContext context) {
-    debugPrint("📱 Notification permission screen shown");
+    // debugPrint("📱 Notification permission screen shown");
     return PopScope(
       canPop: false,
       child: Scaffold(
@@ -126,7 +127,9 @@ class _NotificationRequiredScreenState extends State<NotificationRequiredScreen>
                               ),
                               boxShadow: [
                                 BoxShadow(
-                                  color: const Color(0xFFF59E0B).withOpacity(0.4),
+                                  color: const Color(
+                                    0xFFF59E0B,
+                                  ).withAlpha((0.4 * 255).toInt()),
                                   blurRadius: 30,
                                   spreadRadius: 5,
                                 ),
@@ -142,7 +145,7 @@ class _NotificationRequiredScreenState extends State<NotificationRequiredScreen>
                       },
                     ),
                     const SizedBox(height: 50),
-                    
+
                     // Title
                     const Text(
                       "Notification Access Required",
@@ -155,36 +158,30 @@ class _NotificationRequiredScreenState extends State<NotificationRequiredScreen>
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 16),
-                    
+
                     // Subtitle
                     Text(
                       "Stay on top of your attendance schedule with timely reminders and important updates",
                       style: TextStyle(
                         fontSize: 16,
-                        color: Colors.white.withOpacity(0.8),
+                        color: Colors.white.withAlpha((0.8 * 255).toInt()),
                         fontWeight: FontWeight.w400,
                         height: 1.5,
                       ),
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 50),
-                    
+
                     // Instructions Card
                     Container(
                       padding: const EdgeInsets.all(24),
                       decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.1),
+                        color: Colors.white.withAlpha((0.1 * 255).toInt()),
                         borderRadius: BorderRadius.circular(20),
                         border: Border.all(
-                          color: Colors.white.withOpacity(0.2),
+                          color: Colors.white.withAlpha((0.2 * 255).toInt()),
                           width: 1,
                         ),
-                        // backdropFilter: const ColorFilter.matrix([
-                        //   1, 0, 0, 0, 0,
-                        //   0, 1, 0, 0, 0,
-                        //   0, 0, 1, 0, 0,
-                        //   0, 0, 0, 0.8, 0,
-                        // ]),
                       ),
                       child: Column(
                         children: [
@@ -209,21 +206,27 @@ class _NotificationRequiredScreenState extends State<NotificationRequiredScreen>
                       ),
                     ),
                     const SizedBox(height: 50),
-                    
+
                     // Settings Button
                     Container(
                       height: 64,
                       width: double.infinity,
                       decoration: BoxDecoration(
                         gradient: const LinearGradient(
-                          colors: [Color(0xFF3B82F6), Color(0xFF2563EB), Color(0xFF1D4ED8)],
+                          colors: [
+                            Color(0xFF3B82F6),
+                            Color(0xFF2563EB),
+                            Color(0xFF1D4ED8),
+                          ],
                           begin: Alignment.centerLeft,
                           end: Alignment.centerRight,
                         ),
                         borderRadius: BorderRadius.circular(20),
                         boxShadow: [
                           BoxShadow(
-                            color: const Color(0xFF3B82F6).withOpacity(0.4),
+                            color: const Color(
+                              0xFF3B82F6,
+                            ).withAlpha((0.4 * 255).toInt()),
                             blurRadius: 20,
                             offset: const Offset(0, 8),
                           ),
@@ -263,21 +266,21 @@ class _NotificationRequiredScreenState extends State<NotificationRequiredScreen>
     );
   }
 
-  Widget _buildInstructionStep(IconData icon, String title, String description) {
+  Widget _buildInstructionStep(
+    IconData icon,
+    String title,
+    String description,
+  ) {
     return Row(
       children: [
         Container(
           width: 48,
           height: 48,
           decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.2),
+            color: Colors.white.withAlpha((0.2 * 255).toInt()),
             borderRadius: BorderRadius.circular(12),
           ),
-          child: Icon(
-            icon,
-            color: Colors.white,
-            size: 24,
-          ),
+          child: Icon(icon, color: Colors.white, size: 24),
         ),
         const SizedBox(width: 16),
         Expanded(
@@ -296,7 +299,7 @@ class _NotificationRequiredScreenState extends State<NotificationRequiredScreen>
               Text(
                 description,
                 style: TextStyle(
-                  color: Colors.white.withOpacity(0.7),
+                  color: Colors.white.withAlpha((0.7 * 255).toInt()),
                   fontSize: 14,
                   fontWeight: FontWeight.w400,
                 ),

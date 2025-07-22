@@ -11,7 +11,8 @@ class ProfileScreen extends StatefulWidget {
   State<ProfileScreen> createState() => _ProfileScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateMixin {
+class _ProfileScreenState extends State<ProfileScreen>
+    with TickerProviderStateMixin {
   UserModel? user;
   late AnimationController _fadeController;
   late AnimationController _slideController;
@@ -30,9 +31,10 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
       vsync: this,
     );
 
-    _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _fadeController, curve: Curves.easeOut),
-    );
+    _fadeAnimation = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(CurvedAnimation(parent: _fadeController, curve: Curves.easeOut));
     _slideAnimation = Tween<Offset>(
       begin: const Offset(0, 0.3),
       end: Offset.zero,
@@ -53,7 +55,7 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
     setState(() {
       user = fetchedUser;
     });
-    
+
     if (user != null) {
       _fadeController.forward();
       _slideController.forward();
@@ -67,7 +69,8 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
     if (mounted) {
       Navigator.of(context).pushAndRemoveUntil(
         PageRouteBuilder(
-          pageBuilder: (context, animation, secondaryAnimation) => const LoginScreen(),
+          pageBuilder: (context, animation, secondaryAnimation) =>
+              const LoginScreen(),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return FadeTransition(opacity: animation, child: child);
           },
@@ -112,10 +115,7 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
         ),
         content: Text(
           'Are you sure you want to logout? You will need to sign in again to access the app.',
-          style: TextStyle(
-            color: Colors.white.withOpacity(0.8),
-            fontSize: 16,
-          ),
+          style: TextStyle(color: Colors.white.withOpacity(0.8), fontSize: 16),
         ),
         actions: [
           TextButton(
@@ -145,7 +145,10 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
                 _logout(context);
               },
               style: TextButton.styleFrom(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 12,
+                ),
               ),
               child: const Text(
                 'Logout',
@@ -168,10 +171,7 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
       decoration: BoxDecoration(
         color: const Color(0xFF1E293B),
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(
-          color: Colors.white.withOpacity(0.1),
-          width: 1,
-        ),
+        border: Border.all(color: Colors.white.withOpacity(0.1), width: 1),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.1),
@@ -194,44 +194,46 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
               ),
             ),
           ),
-          ...items.map((item) => Container(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-            decoration: BoxDecoration(
-              border: Border(
-                top: BorderSide(
-                  color: Colors.white.withOpacity(0.05),
-                  width: 1,
+          ...items.map(
+            (item) => Container(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+              decoration: BoxDecoration(
+                border: Border(
+                  top: BorderSide(
+                    color: Colors.white.withOpacity(0.05),
+                    width: 1,
+                  ),
                 ),
               ),
-            ),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  width: 100,
-                  child: Text(
-                    item.key,
-                    style: TextStyle(
-                      color: Colors.white.withOpacity(0.6),
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    width: 100,
+                    child: Text(
+                      item.key,
+                      style: TextStyle(
+                        color: Colors.white.withOpacity(0.6),
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                   ),
-                ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: Text(
-                    item.value,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: Text(
+                      item.value,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          )),
+          ),
         ],
       ),
     );
@@ -247,10 +249,7 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
-                  colors: [
-                    Color(0xFF0F172A),
-                    Color(0xFF1E293B),
-                  ],
+                  colors: [Color(0xFF0F172A), Color(0xFF1E293B)],
                 ),
               ),
               child: const Center(
@@ -258,7 +257,9 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF3B82F6)),
+                      valueColor: AlwaysStoppedAnimation<Color>(
+                        Color(0xFF3B82F6),
+                      ),
                       strokeWidth: 3,
                     ),
                     SizedBox(height: 20),
@@ -279,16 +280,12 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
-                  colors: [
-                    Color(0xFF0F172A),
-                    Color(0xFF1E293B),
-                  ],
+                  colors: [Color(0xFF0F172A), Color(0xFF1E293B)],
                 ),
               ),
               child: SafeArea(
                 child: Column(
                   children: [
-
                     Container(
                       padding: const EdgeInsets.all(20),
                       child: Row(
@@ -355,7 +352,7 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
                         ],
                       ),
                     ),
-                    
+
                     Expanded(
                       child: FadeTransition(
                         opacity: _fadeAnimation,
@@ -366,20 +363,25 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-
                                 Container(
                                   width: double.infinity,
                                   padding: const EdgeInsets.all(32),
                                   decoration: BoxDecoration(
                                     gradient: const LinearGradient(
-                                      colors: [Color(0xFF3B82F6), Color(0xFF2563EB), Color(0xFF1D4ED8)],
+                                      colors: [
+                                        Color(0xFF3B82F6),
+                                        Color(0xFF2563EB),
+                                        Color(0xFF1D4ED8),
+                                      ],
                                       begin: Alignment.topLeft,
                                       end: Alignment.bottomRight,
                                     ),
                                     borderRadius: BorderRadius.circular(24),
                                     boxShadow: [
                                       BoxShadow(
-                                        color: const Color(0xFF3B82F6).withOpacity(0.3),
+                                        color: const Color(
+                                          0xFF3B82F6,
+                                        ).withOpacity(0.3),
                                         blurRadius: 20,
                                         offset: const Offset(0, 10),
                                       ),
@@ -392,9 +394,13 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
                                         height: 100,
                                         decoration: BoxDecoration(
                                           color: Colors.white.withOpacity(0.2),
-                                          borderRadius: BorderRadius.circular(24),
+                                          borderRadius: BorderRadius.circular(
+                                            24,
+                                          ),
                                           border: Border.all(
-                                            color: Colors.white.withOpacity(0.3),
+                                            color: Colors.white.withOpacity(
+                                              0.3,
+                                            ),
                                             width: 2,
                                           ),
                                         ),
@@ -416,15 +422,22 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
                                       ),
                                       const SizedBox(height: 8),
                                       Container(
-                                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 16,
+                                          vertical: 8,
+                                        ),
                                         decoration: BoxDecoration(
                                           color: Colors.white.withOpacity(0.2),
-                                          borderRadius: BorderRadius.circular(20),
+                                          borderRadius: BorderRadius.circular(
+                                            20,
+                                          ),
                                         ),
                                         child: Text(
                                           user!.designation,
                                           style: TextStyle(
-                                            color: Colors.white.withOpacity(0.9),
+                                            color: Colors.white.withOpacity(
+                                              0.9,
+                                            ),
                                             fontSize: 16,
                                             fontWeight: FontWeight.w500,
                                           ),
@@ -435,13 +448,13 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
                                   ),
                                 ),
                                 const SizedBox(height: 32),
-                                
+
                                 _buildInfoCard('Personal Information', [
                                   MapEntry('User ID', user!.userId),
                                   MapEntry('Officer Type', user!.officerType),
                                   MapEntry('Mobile', user!.mobile),
                                 ]),
-                                
+
                                 _buildInfoCard('Booth Information', [
                                   MapEntry('Booth Number', user!.boothNumber),
                                   MapEntry('Booth Name', user!.boothName),
